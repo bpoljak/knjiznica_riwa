@@ -1,1 +1,2 @@
-# knjiznica_riwa
+# Projekt knjiznica
+## Kolegij Razvoj interaktivnih web aplikacija
