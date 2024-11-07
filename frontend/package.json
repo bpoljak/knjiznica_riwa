@@ -1,0 +1,19 @@
+{
+  "name": "knjiznica",
+  "version": "1.0.0",
+  "description": "knjiznica dstojcevic",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DinoStojcevic/knjiznica.git"
+  },
+  "author": "Dino Stojcevic",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DinoStojcevic/knjiznica/issues"
+  },
+  "homepage": "https://github.com/DinoStojcevic/knjiznica#readme"
+}
