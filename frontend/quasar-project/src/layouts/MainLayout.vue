@@ -58,43 +58,43 @@ const linksList = [
     title: 'Početna',
     caption: 'Početna stranica',
     icon: 'home',
-    link: '#/'
+    link: '/'
   },
   {
     title: 'Popis knjiga',
     caption: 'Popis svih kniga u knjižnici',
     icon: 'book',
-    link: '#/popisKnjiga'
+    link: '/popisKnjiga'
   },
   {
     title: 'Pretraživanje',
     caption: 'Pretraživanje knjiga po imenu',
     icon: 'search',
-    link: '#/pretrazivanje'
+    link: '/pretrazivanje'
   },
   {
     title: 'O nama',
     caption: 'Informacije o knjižnici',
     icon: 'record_voice_over',
-    link: '#/o_nama'
+    link: '/o_nama'
   },
   {
     title: 'Lokacija',
     caption: 'Informacije o lokaciji knjižnice',
     icon: 'location',
-    link: '#/lokacija'
+    link: '/lokacija'
   },
   {
     title: 'Prijava',
     caption: 'Prijavite se u svoj korisnički račun',
     icon: 'login',
-    link: '#/login'
+    link: '/login'
   },
   {
     title: 'Registracija',
     caption: 'Kreirajte svoj korisnički račun',
     icon: 'register',
-    link: '#/registracija'
+    link: '/registracija'
   }
 ]
 
