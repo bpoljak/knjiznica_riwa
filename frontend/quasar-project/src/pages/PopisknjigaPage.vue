@@ -1,58 +1,152 @@
 <template>
   <q-page padding>
-    <!-- Popis knjiga u tablici -->
-    <q-card dark bordered class="bg-grey-9 my-card">
-      <q-card-section>
-        <div class="text-h3 text-weight-bolder">Popis knjiga</div>
-      </q-card-section>
+    <div class="q-pa-md">
+      <q-table
+        separator="horizontal"
+        title="Popis knjiga"
+        title-class="text-h4 text-bold text-red-9"
+        :rows="books"
+        :columns="columns"
+        row-key="id"
+        table-class="text-black"
+        table-style="border: 3px solid black;"
+        table-header-style="height: 65px"
+        table-header-class="bg-red-2"
+        bordered
+        flat
+        square
+      >
+        <template v-slot:header="props">
+          <q-tr :props="props">
+            <q-th
+            v-for="col in props.cols"
+            :key="col.name"
+            :props="props"
+            >
+              {{ col.label }}
+            </q-th>
+          </q-tr>
+        </template>
+        <template v-slot:body="props">
+          <q-tr :props="props">
+            <q-td v-for="col in props.cols"
+              :key="col.name"
+              :props="props">
+              <span v-if="col.name !='slika' && col.name!='opis'" >
+                {{ col.value }}
+              </span>
+              <div v-if="col.name=='opis'">
+                <div class="tbl_opis">
+                  {{ props.row.opis }}
+                </div>
+              </div>
+              <q-img
+                :src="props.row.slika"
+                v-if="col.name =='slika'"
+                size="100px" class="shadow-10">
+              </q-img>
+            </q-td>
+          </q-tr>
+        </template>
+      </q-table>
 
-      <q-card-section>
-        <!-- Tablica sa dummy podacima -->
-        <q-table
-          :rows="books"
-          :columns="columns"
-          :rows-per-page-options="[5, 10, 15]"
-          row-key="id"
-        />
-      </q-card-section>
-    </q-card>
+    </div>
   </q-page>
+
 </template>
 
 <script>
-export default {
-  setup() {
-    // Dummy podaci o knjigama
-    const books = [
-      { id: 1, title: "1984", author: "George Orwell", year: 1949, genre: "Dystopian" },
-      { id: 2, title: "To Kill a Mockingbird", author: "Harper Lee", year: 1960, genre: "Fiction" },
-      { id: 3, title: "The Great Gatsby", author: "F. Scott Fitzgerald", year: 1925, genre: "Classic" },
-      { id: 4, title: "Moby-Dick", author: "Herman Melville", year: 1851, genre: "Adventure" },
-      { id: 5, title: "Pride and Prejudice", author: "Jane Austen", year: 1813, genre: "Romance" },
-      { id: 6, title: "War and Peace", author: "Leo Tolstoy", year: 1869, genre: "Historical" },
-      { id: 7, title: "The Hobbit", author: "J.R.R. Tolkien", year: 1937, genre: "Fantasy" },
-      { id: 8, title: "Crime and Punishment", author: "Fyodor Dostoevsky", year: 1866, genre: "Psychological" },
-      { id: 9, title: "The Catcher in the Rye", author: "J.D. Salinger", year: 1951, genre: "Fiction" },
-      { id: 10, title: "Brave New World", author: "Aldous Huxley", year: 1932, genre: "Science Fiction" }
-    ];
+import { ref } from 'vue'
+import axios from 'axios';
 
-    // Kolone tablice
-    const columns = [
-      { name: 'title', label: 'Naslov', align: 'left', field: 'title' },
-      { name: 'author', label: 'Autor', align: 'left', field: 'author' },
-      { name: 'year', label: 'Godina', align: 'center', field: 'year' },
-      { name: 'genre', label: 'Žanr', align: 'left', field: 'genre' }
-    ];
+const style1 = {
+      fontSize:'18px'
+    };
+const style2 = {
+      fontSize: '24px'
+    };
+
+const columns = [
+  {
+    name:'id',
+    label:'id',
+    field:'id',
+    align:'left',
+    sortable: true,
+    style: style1,
+    headerStyle: style2
+  },
+  {
+    name: 'naslov',
+    label: 'naslov',
+    field: 'naslov',
+    align:'left',
+    sortable: true,
+    style: style1,
+    headerStyle: style2
+  },
+  {
+    name: 'autor',
+    label: 'autor',
+    field: 'autor',
+    align: 'left',
+    style: style1,
+    headerStyle: style2
+  },
+  {
+    name: 'opis',
+    label: 'opis',
+    field: 'opis',
+    align: 'left',
+    style: style1,
+    headerStyle: style2
+  },
+  {
+    name: 'slika',
+    label: 'slika',
+    field: 'slika',
+    align:'center',
+    style: style1,
+    headerStyle: style2
+  },
+  {
+    name: 'stanje',
+    label: 'stanje',
+    field: 'stanje',
+    align:'center',
+    style: style1,
+    headerStyle: style2
+  }
+];
+
+export default {
+  setup () {
+    const books = ref([])
+
+    const loadBooks = async () => {
+      await axios.get('http://localhost:3000/api/knjige/')
+        .then(result => {
+          console.log(result.data)
+          books.value = result.data
+          console.log(books.value[0].id)
+        })
+        .catch(error => {
+          console.error(error)
+        })
+    }
 
     return {
+      columns,
       books,
-      columns
-    };
-  }
+      loadBooks,
+      pagination: ref({
+        rowsPerPage: 10
+      }),
+    }
+  },
+
+  mounted() {
+    this.loadBooks()
+  },
 }
 </script>
-
-<style lang="sass" scoped>
-.my-card
-  width: 100%
-</style>
